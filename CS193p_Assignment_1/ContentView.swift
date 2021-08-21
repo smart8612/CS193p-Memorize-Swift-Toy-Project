@@ -51,6 +51,8 @@ struct CardView: View {
                 Text(card.content)
                     .padding()
                     .font(.largeTitle)
+            } else if card.isMatched {
+                shape.opacity(0)
             } else {
                 shape.fill()
             }

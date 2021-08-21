@@ -7,8 +7,9 @@
 
 import Foundation
 
-struct MemoryGame<CardContent> {
-    var cards: [Card]
+struct MemoryGame<CardContent: Equatable> {
+    private(set) var cards: [Card]
+    var alreadyChosenIndex: Int?
     
     init(numberOfPairsOfCards: Int, createCardContent: (Int) -> CardContent) {
         self.cards = Array<Card>()
@@ -20,9 +21,31 @@ struct MemoryGame<CardContent> {
     }
     
     mutating func choose(card: Card) {
-        if let choosenIndex = cards.firstIndex(where: { $0.id == card.id }) {
-            cards[choosenIndex].isFaceUp.toggle()
-            print("\(cards[choosenIndex])")
+        if let chosenIndex = cards.firstIndex(where: { $0.id == card.id }) {
+            
+            if let potentialChosenIndex = alreadyChosenIndex,
+               !cards[chosenIndex].isFaceUp,
+               !cards[chosenIndex].isMatched
+            {
+                // 이미 따로 빼둔 카드가 존재하다면
+                if cards[potentialChosenIndex].content == cards[chosenIndex].content {
+                    cards[potentialChosenIndex].isMatched = true
+                    cards[chosenIndex].isMatched = true
+                }
+                alreadyChosenIndex = nil
+                
+            } else {
+                // 내가 카드를 선택한 시점에서 이미 선택된 카드가 존재하지 않음
+                // 모든 카드를 일단 뒤로 뒤집어둔 후에
+                // 내가 선택한 카드 하나를 따로 빼둔다.
+                for index in cards.indices {
+                    cards[index].isFaceUp = false
+                }
+                alreadyChosenIndex = chosenIndex
+            }
+            
+            cards[chosenIndex].isFaceUp.toggle()
+            print("\(cards[chosenIndex])")
             
         }
     }
