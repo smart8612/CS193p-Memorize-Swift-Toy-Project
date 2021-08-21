@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-class EmojiMemoryGame {
-    private var model: MemoryGame<String> = createMemoryGame()
+class EmojiMemoryGame: ObservableObject {
+    @Published private var model: MemoryGame<String> = createMemoryGame()
     
     static var selectedTheme: Int = 0
     
@@ -28,8 +28,8 @@ class EmojiMemoryGame {
         ["😀", "🥲", "😜", "😡", "🥺", "😳", "😎", "😄", "🥸", "😍"]
     ]
     
-    func choose() {
-        print("Click Intent works!")
+    func choose(card: MemoryGame<String>.Card) {
+        model.choose(card: card)
     }
     
 }

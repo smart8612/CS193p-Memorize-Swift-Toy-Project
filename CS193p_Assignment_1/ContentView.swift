@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    let viewModel: EmojiMemoryGame
+    @ObservedObject var viewModel: EmojiMemoryGame
     
     var body: some View {
         VStack {
@@ -28,7 +28,7 @@ struct ContentView: View {
                     CardView(card: card)
                         .aspectRatio(2/3, contentMode: .fill)
                         .onTapGesture() {
-                            viewModel.choose()
+                            viewModel.choose(card: card)
                         }
                 }
             }
