@@ -14,6 +14,7 @@ struct ContentView: View {
         VStack {
             title
             cardLayout
+            bottom
         }
         .onAppear {
             viewModel.reset()
@@ -43,6 +44,9 @@ struct ContentView: View {
         }
     }
     
+    var bottom: some View {
+        Text("Score: \(viewModel.getGameScore())")
+    }
 }
 
 struct CardView: View {

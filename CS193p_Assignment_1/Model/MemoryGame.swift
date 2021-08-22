@@ -9,6 +9,7 @@ import Foundation
 
 struct MemoryGame<CardContent: Hashable> {
     private(set) var cards: [Card]
+    private(set) var score = 0
     var alreadyChosenIndex: Int?
     
     init(numberOfPairsOfCards: Int, contents: [CardContent]) {
@@ -31,7 +32,13 @@ struct MemoryGame<CardContent: Hashable> {
                 if cards[potentialChosenIndex].content == cards[chosenIndex].content {
                     cards[potentialChosenIndex].isMatched = true
                     cards[chosenIndex].isMatched = true
+                    self.score += 2
+                    
+                } else {
+                    self.score -= 1
+                    
                 }
+                
                 alreadyChosenIndex = nil
                 
             } else {

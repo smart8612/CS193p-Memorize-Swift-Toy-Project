@@ -48,6 +48,10 @@ class EmojiMemoryGame: ObservableObject {
         }
     }
     
+    func getGameScore() -> Int {
+        return gameModel.score
+    }
+    
     func reset() {
         Self.theme = MemoryTheme.themes.randomElement() ?? .devices
         gameModel = Self.createMemoryGame()
