@@ -7,16 +7,18 @@
 
 import Foundation
 
-struct MemoryGame<CardContent: Equatable> {
+struct MemoryGame<CardContent: Hashable> {
     private(set) var cards: [Card]
     var alreadyChosenIndex: Int?
     
-    init(numberOfPairsOfCards: Int, createCardContent: (Int) -> CardContent) {
+    init(numberOfPairsOfCards: Int, contents: Set<CardContent>) {
         self.cards = Array<Card>()
-        for index in 0..<numberOfPairsOfCards {
-            let content = createCardContent(index)
-            cards.append(Card(content: content, id: index * 2))
-            cards.append(Card(content: content, id: index * 2 + 1))
+        for (index, emoji) in contents.enumerated() {
+            if index >= numberOfPairsOfCards {
+                break;
+            }
+            cards.append(Card(content: emoji, id: index * 2))
+            cards.append(Card(content: emoji, id: index * 2 + 1))
         }
     }
     
