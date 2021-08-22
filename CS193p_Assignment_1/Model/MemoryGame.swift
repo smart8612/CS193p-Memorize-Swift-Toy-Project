@@ -11,15 +11,13 @@ struct MemoryGame<CardContent: Hashable> {
     private(set) var cards: [Card]
     var alreadyChosenIndex: Int?
     
-    init(numberOfPairsOfCards: Int, contents: Set<CardContent>) {
+    init(numberOfPairsOfCards: Int, contents: [CardContent]) {
         self.cards = Array<Card>()
-        for (index, emoji) in contents.enumerated() {
-            if index >= numberOfPairsOfCards {
-                break;
-            }
-            cards.append(Card(content: emoji, id: index * 2))
-            cards.append(Card(content: emoji, id: index * 2 + 1))
+        for (index, each) in contents.enumerated() {
+            cards.append(Card(content: each, id: index * 2))
+            cards.append(Card(content: each, id: index * 2 + 1))
         }
+        cards.shuffle()
     }
     
     mutating func choose(card: Card) {

@@ -18,6 +18,8 @@ struct MemoryTheme {
     var color: String
     var emojis: Set<String>
     
+    static var themes: [MemoryTheme] = [vehicles, devices, faces]
+    
     static let vehicles = MemoryTheme(name: "Vehicle", numberOfPairs: 4, color: "red",
                                       emojis: ["🛸","🚌","🏍","🛺","🚠","🛵","🚗","🚚","🚇","🛻","🚝"])
     static let devices = MemoryTheme(name: "Device", numberOfPairs: 10, color: "green",

@@ -15,10 +15,16 @@ struct ContentView: View {
             title
             cardLayout
         }
+        .onAppear {
+            viewModel.reset()
+        }
     }
     
     var title: some View {
-        Text("Memorize!").font(.largeTitle)
+        HStack {
+            Text("Memorize!").font(.largeTitle)
+            Text(viewModel.getThemeName()).font(.largeTitle)
+        }
     }
     
     var cardLayout: some View {
@@ -32,7 +38,7 @@ struct ContentView: View {
                         }
                 }
             }
-            .foregroundColor(.red)
+            .foregroundColor(viewModel.getThemeColor())
             .padding(.horizontal)
         }
     }
