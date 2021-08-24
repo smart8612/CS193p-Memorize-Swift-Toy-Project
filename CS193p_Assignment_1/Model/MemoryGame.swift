@@ -11,17 +11,17 @@ struct MemoryGame<CardContent: Hashable> {
     private(set) var cards: [Card]
     private(set) var score = 0
     
-    var alreadyChosenIndex: Int? {
+    private var alreadyChosenIndex: Int? {
         get { cards.indices.filter({ cards[$0].isFaceUp }).oneAndOnly }
         set { cards.indices.forEach { cards[$0].isFaceUp = ($0 == newValue) } }
     }
     
     init(numberOfPairsOfCards: Int, contents: [CardContent]) {
-        self.cards = []
-        for (index, each) in contents.enumerated() {
-            cards.append(Card(content: each, id: index * 2))
-            cards.append(Card(content: each, id: index * 2 + 1))
-        }
+        cards = []
+        contents.enumerated().forEach({
+            cards.append(Card(content: $1, id: $0 * 2))
+            cards.append(Card(content: $1, id: $0 * 2 + 1))
+        })
         cards.shuffle()
     }
     
@@ -35,21 +35,30 @@ struct MemoryGame<CardContent: Hashable> {
                 if cards[potentialChosenIndex].content == cards[chosenIndex].content {
                     cards[potentialChosenIndex].isMatched = true
                     cards[chosenIndex].isMatched = true
-                    score += 2
+                    addPrizeToScore()
                 } else {
-                    score -= 1
+                    addPeneltyToScore()
                 }
                 cards[chosenIndex].isFaceUp = true
                 
             } else {
                 alreadyChosenIndex = chosenIndex
+                
             }
             
         }
     }
     
+    private mutating func addPeneltyToScore() {
+        score -= 1
+    }
+    
+    private mutating func addPrizeToScore() {
+        score += 2
+    }
+    
     struct Card: Identifiable {
-        var isFaceUp = false
+        var isFaceUp = true
         var isMatched = false
         let content: CardContent
         let id: Int
@@ -57,7 +66,5 @@ struct MemoryGame<CardContent: Hashable> {
 }
 
 extension Array {
-    var oneAndOnly: Element? {
-        return count == 1 ? first : nil
-    }
+    var oneAndOnly: Element? { count == 1 ? first : nil }
 }

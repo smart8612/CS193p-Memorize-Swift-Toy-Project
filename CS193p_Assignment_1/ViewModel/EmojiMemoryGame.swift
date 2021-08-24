@@ -10,58 +10,51 @@ import SwiftUI
 class EmojiMemoryGame: ObservableObject {
     typealias Card = MemoryGame<String>.Card
     
-    @Published private var gameModel: MemoryGame<String>
-    static private var theme: MemoryTheme = createMemoryTheme()
+    @Published private var gameModel = createMemoryGame()
+    static private var theme = createMemoryTheme()
     
-    init(theme: MemoryTheme? = nil) {
+    var cards: [Card] { gameModel.cards }
+    var score: Int { gameModel.score }
+    var themeName: String { Self.theme.name }
+    var themeColor: Color {
+        switch Self.theme.color {
+        case "red":
+            return .red
+        case "green":
+            return .green
+        case "blue":
+            return .blue
+        case "purple":
+            return .purple
+        case "yellow":
+            return .yellow
+        case "pink":
+            return .pink
+        default:
+            return .gray
+        }
+    }
+    
+    // MARK: Intent Function
+    
+    func choose(_ card: Card) {
+        gameModel.choose(card: card)
+    }
+    
+    func restart() {
+        Self.theme = MemoryTheme.themes.randomElement()!
         gameModel = Self.createMemoryGame()
-        Self.theme = Self.createMemoryTheme(theme)
     }
     
     private static func createMemoryTheme(_ theme: MemoryTheme? = nil) -> MemoryTheme {
         if let chosenTheme = theme {
             return chosenTheme
         } else {
-            return MemoryTheme.themes.randomElement() ?? .devices
+            return MemoryTheme.themes.randomElement()!
         }
     }
     
     private static func createMemoryGame() -> MemoryGame<String> {
         MemoryGame<String>(numberOfPairsOfCards: theme.numberOfPairs, contents: theme.emojis.shuffled())
     }
-    
-    var cards: [Card] {
-        return gameModel.cards
-    }
-    
-    func choose(card: Card) {
-        gameModel.choose(card: card)
-    }
-    
-    func getThemeName() -> String {
-        return Self.theme.name
-    }
-    
-    func getThemeColor() -> Color {
-        switch Self.theme.color {
-        case "red":
-            return Color.red
-        case "green":
-            return Color.green
-        case "blue":
-            return Color.blue
-        default:
-            return Color.yellow
-        }
-    }
-    
-    func getGameScore() -> Int {
-        return gameModel.score
-    }
-    
-    func reset() {
-        Self.theme = MemoryTheme.themes.randomElement() ?? .devices
-        gameModel = Self.createMemoryGame()
-    }
-    
 }

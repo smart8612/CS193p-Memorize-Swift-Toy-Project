@@ -18,13 +18,19 @@ struct MemoryTheme {
     var color: String
     var emojis: Set<String>
     
-    static var themes: [MemoryTheme] = [vehicles, devices, faces]
-    
-    static let vehicles = MemoryTheme(name: "Vehicle", numberOfPairs: 4, color: "red",
-                                      emojis: ["🛸","🚌","🏍","🛺","🚠","🛵","🚗","🚚","🚇","🛻","🚝"])
-    static let devices = MemoryTheme(name: "Device", numberOfPairs: 10, color: "green",
-                                     emojis: ["⌚️", "📱", "💻", "🖥", "🖨", "💾", "📷", "🖱", "⌨️", "💡"])
-    static let faces = MemoryTheme(name: "Face", numberOfPairs: 10, color: "blue",
-                                   emojis: ["😀", "🥲", "😜", "😡", "🥺", "😳", "😎", "😄", "🥸", "😍"])
+    static var themes: [MemoryTheme] = [
+        MemoryTheme(name: "Vehicle", numberOfPairs: 4, color: "red",
+                    emojis: ["🛸", "🚌", "🏍", "🛺", "🚠", "🛵", "🚗", "🚚", "🚇", "🛻", "🚝"]),
+        MemoryTheme(name: "Device", numberOfPairs: 10, color: "green",
+                    emojis: ["⌚️", "📱", "💻", "🖥", "🖨", "💾", "📷", "🖱", "⌨️", "💡"]),
+        MemoryTheme(name: "Face", numberOfPairs: 10, color: "blue",
+                    emojis: ["😀", "🥲", "😜", "😡", "🥺", "😳", "😎", "😄", "🥸", "😍"]),
+        MemoryTheme(name: "Animal", numberOfPairs: 10, color: "purple",
+                    emojis: ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐻‍❄️", "🐨"]),
+        MemoryTheme(name: "Food", numberOfPairs: 10, color: "yellow",
+                    emojis: ["🍏", "🍎", "🍐", "🍊", "🍋", "🍌", "🍉", "🍇", "🍓", "🥑"]),
+        MemoryTheme(name: "Sport", numberOfPairs: 10, color: "pink",
+                    emojis: ["⚽️", "🏀", "🏈", "⚾️", "🥎", "🎾", "🎾", "🏐", "🏉", "🥏"]),
+    ]
     
 }
