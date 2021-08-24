@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var viewModel: EmojiMemoryGame
+    @ObservedObject var game: EmojiMemoryGame
     
     var body: some View {
         VStack {
@@ -17,40 +17,41 @@ struct ContentView: View {
             bottom
         }
         .onAppear {
-            viewModel.reset()
+            game.reset()
         }
     }
     
     var title: some View {
         HStack {
             Text("Memorize!").font(.largeTitle)
-            Text(viewModel.getThemeName()).font(.largeTitle)
+            Text(game.getThemeName()).font(.largeTitle)
         }
     }
     
     var cardLayout: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
-                ForEach(viewModel.cards) { card in
+                ForEach(game.cards) { card in
                     CardView(card: card)
                         .aspectRatio(2/3, contentMode: .fill)
                         .onTapGesture() {
-                            viewModel.choose(card: card)
+                            game.choose(card: card)
                         }
                 }
             }
-            .foregroundColor(viewModel.getThemeColor())
+            .foregroundColor(game.getThemeColor())
             .padding(.horizontal)
         }
     }
     
     var bottom: some View {
-        Text("Score: \(viewModel.getGameScore())")
+        Text("Score: \(game.getGameScore())")
+            .font(.largeTitle)
     }
 }
 
 struct CardView: View {
-    var card: MemoryGame<String>.Card
+    var card: EmojiMemoryGame.Card
     
     var body: some View {
         ZStack {
@@ -73,6 +74,6 @@ struct CardView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let game = EmojiMemoryGame()
-        ContentView(viewModel: game)
+        ContentView(game: game)
     }
 }

@@ -10,10 +10,14 @@ import Foundation
 struct MemoryGame<CardContent: Hashable> {
     private(set) var cards: [Card]
     private(set) var score = 0
-    var alreadyChosenIndex: Int?
+    
+    var alreadyChosenIndex: Int? {
+        get { cards.indices.filter({ cards[$0].isFaceUp }).oneAndOnly }
+        set { cards.indices.forEach { cards[$0].isFaceUp = ($0 == newValue) } }
+    }
     
     init(numberOfPairsOfCards: Int, contents: [CardContent]) {
-        self.cards = Array<Card>()
+        self.cards = []
         for (index, each) in contents.enumerated() {
             cards.append(Card(content: each, id: index * 2))
             cards.append(Card(content: each, id: index * 2 + 1))
@@ -28,31 +32,18 @@ struct MemoryGame<CardContent: Hashable> {
                !cards[chosenIndex].isFaceUp,
                !cards[chosenIndex].isMatched
             {
-                // 이미 따로 빼둔 카드가 존재하다면
                 if cards[potentialChosenIndex].content == cards[chosenIndex].content {
                     cards[potentialChosenIndex].isMatched = true
                     cards[chosenIndex].isMatched = true
-                    self.score += 2
-                    
+                    score += 2
                 } else {
-                    self.score -= 1
-                    
+                    score -= 1
                 }
-                
-                alreadyChosenIndex = nil
+                cards[chosenIndex].isFaceUp = true
                 
             } else {
-                // 내가 카드를 선택한 시점에서 이미 선택된 카드가 존재하지 않음
-                // 모든 카드를 일단 뒤로 뒤집어둔 후에
-                // 내가 선택한 카드 하나를 따로 빼둔다.
-                for index in cards.indices {
-                    cards[index].isFaceUp = false
-                }
                 alreadyChosenIndex = chosenIndex
             }
-            
-            cards[chosenIndex].isFaceUp.toggle()
-            print("\(cards[chosenIndex])")
             
         }
     }
@@ -60,7 +51,13 @@ struct MemoryGame<CardContent: Hashable> {
     struct Card: Identifiable {
         var isFaceUp = false
         var isMatched = false
-        var content: CardContent
-        var id: Int
+        let content: CardContent
+        let id: Int
+    }
+}
+
+extension Array {
+    var oneAndOnly: Element? {
+        return count == 1 ? first : nil
     }
 }

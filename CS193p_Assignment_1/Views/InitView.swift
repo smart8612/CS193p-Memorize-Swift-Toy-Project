@@ -12,7 +12,7 @@ struct InitView: View {
     
     var body: some View {
         NavigationView {
-            NavigationLink(destination: ContentView(viewModel: viewModel)) {
+            NavigationLink(destination: ContentView(game: viewModel)) {
                 Text("New Game")
                     .font(.largeTitle)
             }

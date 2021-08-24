@@ -8,26 +8,33 @@
 import SwiftUI
 
 class EmojiMemoryGame: ObservableObject {
-    @Published private var gameModel: MemoryGame<String> = createMemoryGame()
-    static private var theme: MemoryTheme = .devices
+    typealias Card = MemoryGame<String>.Card
+    
+    @Published private var gameModel: MemoryGame<String>
+    static private var theme: MemoryTheme = createMemoryTheme()
     
     init(theme: MemoryTheme? = nil) {
+        gameModel = Self.createMemoryGame()
+        Self.theme = Self.createMemoryTheme(theme)
+    }
+    
+    private static func createMemoryTheme(_ theme: MemoryTheme? = nil) -> MemoryTheme {
         if let chosenTheme = theme {
-            Self.theme = chosenTheme
+            return chosenTheme
         } else {
-            Self.theme = MemoryTheme.themes.randomElement() ?? .devices
+            return MemoryTheme.themes.randomElement() ?? .devices
         }
     }
     
-    static func createMemoryGame() -> MemoryGame<String> {
+    private static func createMemoryGame() -> MemoryGame<String> {
         MemoryGame<String>(numberOfPairsOfCards: theme.numberOfPairs, contents: theme.emojis.shuffled())
     }
     
-    var cards: [MemoryGame<String>.Card] {
+    var cards: [Card] {
         return gameModel.cards
     }
     
-    func choose(card: MemoryGame<String>.Card) {
+    func choose(card: Card) {
         gameModel.choose(card: card)
     }
     
