@@ -55,6 +55,6 @@ class EmojiMemoryGame: ObservableObject {
     }
     
     private static func createMemoryGame() -> MemoryGame<String> {
-        MemoryGame<String>(numberOfPairsOfCards: theme.numberOfPairs, contents: theme.emojis.shuffled())
+        MemoryGame<String>(numberOfPairsOfCards: theme.numberOfPairs, contents: theme.emojis)
     }
 }

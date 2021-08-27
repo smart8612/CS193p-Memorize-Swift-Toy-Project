@@ -16,7 +16,7 @@ struct MemoryGame<CardContent: Hashable> {
         set { cards.indices.forEach { cards[$0].isFaceUp = ($0 == newValue) } }
     }
     
-    init(numberOfPairsOfCards: Int, contents: [CardContent]) {
+    init(numberOfPairsOfCards: Int, contents: Set<CardContent>) {
         cards = []
         contents.enumerated().forEach({
             cards.append(Card(content: $1, id: $0 * 2))
